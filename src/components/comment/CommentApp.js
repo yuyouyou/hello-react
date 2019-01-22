@@ -11,6 +11,17 @@ class CommentApp extends Component {
     }
   }
 
+  componentWillMount () {
+    console.log('component will mount')
+    // 本地持久化
+    let commentList = localStorage.getItem('commentList');
+    if (commentList) {
+      this.setState({
+        comments: JSON.parse(commentList)
+      })
+    }
+  }
+
   handleSubmitComment (comment) {
     if (!comment) return
     if (!comment.username) return alert('请输入用户名')
@@ -19,13 +30,25 @@ class CommentApp extends Component {
     this.setState({
       comments: this.state.comments
     })
+    // 本地持久化
+    localStorage.setItem('commentList', JSON.stringify(this.state.comments));
+  }
+
+  handleDeleteComment (index) {
+    const comments = this.state.comments
+    comments.splice(index, 1)
+    this.setState({ comments })
+    // 本地持久化
+    localStorage.setItem('commentList', JSON.stringify(this.state.comments));
   }
 
   render() {
     return (
       <div className='wrapper'>
         <CommentInput onSubmit={this.handleSubmitComment.bind(this)} />
-        <CommentList comments={this.state.comments}/>
+        <CommentList
+        comments={this.state.comments}
+        onDeleteComment={this.handleDeleteComment.bind(this)}/>
       </div>
     )
   }

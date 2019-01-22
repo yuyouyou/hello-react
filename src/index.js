@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import CommentApp from './components/comment/CommentApp'
 import './index.css'
+import PropTypes from 'prop-types'
 
 const users = [
   { username: 'Jerry', age: 21, gender: 'male' },
@@ -46,13 +47,20 @@ class User extends Component {
 }
 
 class Title extends Component {
+  static contextTypes = {
+    themeColor: PropTypes.string
+  }
+
   handleClickOnTitle () {
     console.log('Click on title.')
   }
 
   render () {
     return (
-      <h1 onClick={this.handleClickOnTitle}>React 小书</h1>
+      <div>
+        <h1 onClick={this.handleClickOnTitle}>React 小书</h1>
+        <h2 style={{ color: this.context.themeColor }}>React.js 小书标题</h2>
+      </div>
     )
   }
 }
@@ -90,12 +98,42 @@ class Footer extends Component {
   }
 }
 
+class Card extends Component {
+  render () {
+    console.log(this.props.children)
+    return (
+      <div className='card'>
+        <div className='card-content'>
+          {this.props.children}
+        </div>
+      </div>
+    )
+  }
+}
+
 class Index extends Component {
+  static childContextTypes = {
+    themeColor: PropTypes.string
+  }
+
+  constructor () {
+    super()
+    this.state = { themeColor: 'red' }
+  }
+
+  getChildContext () {
+    return { themeColor: this.state.themeColor }
+  }
   render () {
     return (
       <div>
         <Header />
         <Main />
+        <Card>
+          <h2>React.js 小书</h2>
+          <div>开源、免费、专业、简单</div>
+          订阅：<input />
+        </Card>
         <CommentApp />
         <Footer />
       </div>
