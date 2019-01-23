@@ -70,7 +70,7 @@ class Header extends Component {
     return (
     <div>
       <Title />
-      <h2>This is Header</h2>
+      <h2 style={{color: 'red'}}>This is Header</h2>
     </div>
     )
   }
