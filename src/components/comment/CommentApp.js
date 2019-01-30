@@ -30,6 +30,10 @@ class CommentApp extends Component {
     this.setState({
       comments: this.state.comments
     })
+    // 用es6的写法 本地存储需要用定时间延时执行，因为this.state.comments还是之前的值
+    /*this.setState({
+      comments: [...this.state.comments, comment]
+    })*/
     // 本地持久化
     localStorage.setItem('commentList', JSON.stringify(this.state.comments));
   }

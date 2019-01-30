@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Comment from './Comment'
 
 class CommentList extends Component {
@@ -15,7 +15,7 @@ class CommentList extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         {this.props.comments.map((comment, i) =>
           <Comment
           comment={comment}
@@ -23,7 +23,7 @@ class CommentList extends Component {
           index={i}
           onDeleteComment={this.handleDeleteComment.bind(this)}/>
         )}
-      </div>
+      </Fragment>
     )
   }
 }
