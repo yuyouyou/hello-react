@@ -1,146 +1,61 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+
+// 引入组件
+import Home from './components/Home'
+import Plan from './components/Plan'
+import Detail from './components/Detail'
+import TestRouter from './components/Testrouter'
 import CommentApp from './components/comment/CommentApp'
+
 import './index.css'
+import './components/comment.css'
 import PropTypes from 'prop-types'
 
-const users = [
-  { username: 'Jerry', age: 21, gender: 'male' },
-  { username: 'Tomy', age: 22, gender: 'male' },
-  { username: 'Lily', age: 19, gender: 'female' },
-  { username: 'Lucy', age: 20, gender: 'female' }
-]
+// 引入路由
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
+import createHistory from 'history/createBrowserHistory'
 
-class LikeButton extends Component {
-  constructor () {
-    super()
-    this.state = { isLiked: false }
-  }
+const history = createHistory()
 
-  handleClickOnLikeButton () {
-    this.setState({
-      isLiked: !this.state.isLiked
-    })
-  }
-
-  render () {
-    return (
-      <button onClick={this.handleClickOnLikeButton.bind(this)}>
-        {this.state.isLiked ? '取消' : '点赞'} 👍
-      </button>
-    )
-  }
-}
-
-class User extends Component {
-  render () {
-    const { user } = this.props
-    return (
-      <div>
-        <div>姓名：{user.username}</div>
-        <div>年龄：{user.age}</div>
-        <div>性别：{user.gender}</div>
-        <hr />
-      </div>
-    )
-  }
-}
-
-class Title extends Component {
-  static contextTypes = {
-    themeColor: PropTypes.string
-  }
-
-  handleClickOnTitle () {
-    console.log('Click on title.')
-  }
-
-  render () {
-    return (
-      <div>
-        <h1 onClick={this.handleClickOnTitle}>React 小书</h1>
-        <h2 style={{ color: this.context.themeColor }}>React.js 小书标题</h2>
-      </div>
-    )
-  }
-}
-
-class Header extends Component {
-  render () {
-    return (
-    <div>
-      <Title />
-      <h2 style={{color: 'red'}}>This is Header</h2>
-    </div>
-    )
-  }
-}
-
-class Main extends Component {
-  render () {
-    return (
-    <div>
-      <h2>This is main content</h2>
-      {/*<LikeButton />
-      {users.map((user, i) => <User key={i} user={user} />)}*/}
-    </div>
-    )
-  }
-}
-
-class Footer extends Component {
-  render () {
-    return (
-    <div>
-      <h2>This is footer</h2>
-    </div>
-    )
-  }
-}
-
-class Card extends Component {
-  render () {
-    console.log(this.props.children)
-    return (
-      <div className='card'>
-        <div className='card-content'>
-          {this.props.children}
-        </div>
-      </div>
-    )
-  }
-}
-
+// 路由栗子-开始代码
 class Index extends Component {
-  static childContextTypes = {
-    themeColor: PropTypes.string
+  constructor(props) {
+    super(props);
   }
-
-  constructor () {
-    super()
-    this.state = { themeColor: 'red' }
-  }
-
-  getChildContext () {
-    return { themeColor: this.state.themeColor }
-  }
-  render () {
+  render() {
     return (
-      <div>
-        <Header />
-        <Main />
-        <Card>
-          <h2>React.js 小书</h2>
-          <div>开源、免费、专业、简单</div>
-          订阅：<input />
-        </Card>
-        <CommentApp />
-        <Footer />
+      <div className="App">
+          <div className="App-header">
+            <h2 className='App-title' style={{color: 'red'}}>Welcome to React Plan</h2>
+          </div>
+          <div>
+            {/*// 路由配置*/}
+            <Router history = {history}>
+               <div className="contentBox">
+                  {/*// 编写导航*/}
+                  <ul className="nav">
+                    <li><Link to="/">首页</Link></li>
+                    <li><Link to="/plan">计划表</Link></li>
+                    <li><Link to="/commentApp">评论功能</Link></li>
+                    <li><Link to="/test">二级路由</Link></li>
+                    <li><Link to="/detail/1">详情页</Link></li>
+                  </ul>
+                  {/*// 路由匹配*/}
+                  <div className="content">
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/plan" component={Plan}/>
+                    <Route path="/commentApp" component={CommentApp} />
+                    <Route path="/test" component={TestRouter}/>
+                    <Route path="/detail/:id" component={Detail}/>
+                  </div>
+              </div>
+            </Router>
+          </div>
       </div>
-    )
+    );
   }
 }
-
 
 ReactDOM.render(
   <Index />,
